@@ -12,5 +12,8 @@
   "license": "ISC",
   "devDependencies": {
     "rimraf": "^3.0.2"
+  },
+  "dependencies": {
+    "discord.js": "^13.1.0"
   }
 }
