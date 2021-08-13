@@ -29,17 +29,24 @@ class default_1 extends discord_js_1.Client {
     constructor({ root, gid }) {
         super({ intents: discord_js_1.Intents.FLAGS.GUILDS });
         this.commands = new discord_js_1.Collection();
+        this.ctxcmds = new discord_js_1.Collection();
         this.rootDir = root || '';
         this.on('ready', () => {
             this.registerCommands({ gid, global: `${gid}`.toLocaleLowerCase() == 'global' });
         });
         this.on('interactionCreate', interaction => {
-            if (!interaction.isCommand())
-                return;
-            const cmd = this.commands.get(interaction.commandName);
-            if (!cmd)
-                return;
-            cmd.exec(interaction);
+            if (interaction.isContextMenu()) {
+                let cmd = this.ctxcmds.get(interaction.commandName);
+                if (!cmd)
+                    return;
+                cmd.exec(interaction);
+            }
+            else if (interaction.isCommand()) {
+                let cmd = this.commands.get(interaction.commandName);
+                if (!cmd)
+                    return;
+                cmd.exec(interaction);
+            }
         });
     }
     loadCommands() {
@@ -47,7 +54,7 @@ class default_1 extends discord_js_1.Client {
             Promise.resolve().then(() => __importStar(require(i))).then(({ default: command }) => {
                 if (!command)
                     return;
-                this.commands.set(command.name, command);
+                command.type == 'CHAT_INPUT' ? this.commands.set(command.name, command) : this.ctxcmds.set(command.name, command);
             });
         });
     }
@@ -62,7 +69,7 @@ class default_1 extends discord_js_1.Client {
     async registerCommands({ gid, global }) {
         if (!this.isReady())
             throw new Error('[NOT_READY]: Client needs to logged in before you can set commands');
-        const cmds = [...this.commands.values()];
+        const cmds = [...this.commands.values(), ...this.ctxcmds.values()];
         global ? this.application.commands.set(cmds) : [gid].flat().forEach(i => this.guilds.cache.get(i)?.commands.set(cmds));
     }
     init(token) {

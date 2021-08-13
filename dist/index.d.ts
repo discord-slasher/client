@@ -1,7 +1,8 @@
 import { Client, Collection } from 'discord.js';
-import type { Command } from './types';
+import type { SlashCommand, CTXCommand } from './types';
 export default class extends Client {
-    commands: Collection<string, Command>;
+    commands: Collection<string, SlashCommand>;
+    ctxcmds: Collection<string, CTXCommand>;
     rootDir: string;
     constructor({ root, gid }: {
         root?: string;

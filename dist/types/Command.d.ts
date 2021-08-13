@@ -1,13 +1,12 @@
-import { MessageApplicationCommandData, ChatInputApplicationCommandData, ApplicationCommandPermissionData, CommandInteraction } from "discord.js";
-interface SlashCommand extends ChatInputApplicationCommandData {
-    ownerOnly?: boolean;
-    permissions?: ApplicationCommandPermissionData[];
+import { MessageApplicationCommandData, ChatInputApplicationCommandData, CommandInteraction, ContextMenuInteraction, UserApplicationCommandData } from "discord.js";
+interface MContextCommand extends MessageApplicationCommandData {
+    exec(interaction: ContextMenuInteraction): Promise<void>;
+}
+interface UContextCommand extends UserApplicationCommandData {
+    exec(interaction: ContextMenuInteraction): Promise<void>;
+}
+export interface SlashCommand extends ChatInputApplicationCommandData {
     exec(interaction: CommandInteraction): Promise<void>;
 }
-interface MessageContextMenu extends MessageApplicationCommandData {
-    ownerOnly?: boolean;
-    permissions?: ApplicationCommandPermissionData[];
-    exec(interaction: CommandInteraction): Promise<void>;
-}
-export declare type Command = SlashCommand | MessageContextMenu;
+export declare type CTXCommand = MContextCommand | UContextCommand;
 export {};
