@@ -31,7 +31,7 @@ class default_1 extends discord_js_1.Client {
         this.commands = new discord_js_1.Collection();
         this.rootDir = root || '';
         this.on('ready', () => {
-            this.registerCommands(gid);
+            this.registerCommands({ gid, global: `${gid}`.toLocaleLowerCase() == 'global' });
         });
         this.on('interactionCreate', interaction => {
             if (!interaction.isCommand())
@@ -59,11 +59,11 @@ class default_1 extends discord_js_1.Client {
             });
         });
     }
-    async registerCommands(gid) {
+    async registerCommands({ gid, global }) {
         if (!this.isReady())
             throw new Error('[NOT_READY]: Client needs to logged in before you can set commands');
         const cmds = [...this.commands.values()];
-        `${gid}`.toLowerCase() == 'global' ? [gid].flat().forEach(i => this.guilds.cache.get(i)?.commands.set(cmds)) : this.application.commands.set(cmds);
+        global ? this.application.commands.set(cmds) : [gid].flat().forEach(i => this.guilds.cache.get(i)?.commands.set(cmds));
     }
     init(token) {
         dotenv_1.config();

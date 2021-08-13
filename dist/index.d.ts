@@ -9,7 +9,10 @@ export default class extends Client {
     });
     loadCommands(): void;
     loadEvents(): void;
-    registerCommands(gid: string[] | string): Promise<void>;
+    registerCommands({ gid, global }: {
+        gid: string[] | string;
+        global?: boolean;
+    }): Promise<void>;
     init(token?: string): this;
 }
 export * from './types';
