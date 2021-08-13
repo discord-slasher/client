@@ -37,7 +37,7 @@ export default class extends Client {
         sync(`${this.rootDir}commands/**/*.js`, { absolute: true }).forEach(i => {
             import(i).then(({ default: command }: { default: any }) => {
                 if(!command) return
-                command.type == 'CHAT_INPUT' ? this.commands.set(command.name, command) : this.ctxcmds.set(command.name, command)
+                command.type == 'CHAT_INPUT' || !command.type ? this.commands.set(command.name, command) : this.ctxcmds.set(command.name, command)
             })
         })
     }

@@ -54,7 +54,7 @@ class default_1 extends discord_js_1.Client {
             Promise.resolve().then(() => __importStar(require(i))).then(({ default: command }) => {
                 if (!command)
                     return;
-                command.type == 'CHAT_INPUT' ? this.commands.set(command.name, command) : this.ctxcmds.set(command.name, command);
+                command.type == 'CHAT_INPUT' || !command.type ? this.commands.set(command.name, command) : this.ctxcmds.set(command.name, command);
             });
         });
     }
