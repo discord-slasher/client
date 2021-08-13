@@ -1,4 +1,4 @@
-import { MessageApplicationCommandData ,ChatInputApplicationCommandData, ApplicationCommandPermissionData, CommandInteraction } from "discord.js";
+import { MessageApplicationCommandData ,ChatInputApplicationCommandData, ApplicationCommandPermissionData, CommandInteraction, ContextMenuInteraction } from "discord.js";
 
 interface SlashCommand extends ChatInputApplicationCommandData {
     ownerOnly?: boolean;
@@ -9,7 +9,7 @@ interface SlashCommand extends ChatInputApplicationCommandData {
 interface MessageContextMenu extends MessageApplicationCommandData {
     ownerOnly?: boolean;
     permissions?: ApplicationCommandPermissionData[];
-    exec(interaction: CommandInteraction): Promise<void>;
+    exec(interaction: ContextMenuInteraction): Promise<void>;
 }
 
 export type Command = SlashCommand | MessageContextMenu

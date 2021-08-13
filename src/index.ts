@@ -20,7 +20,7 @@ export default class extends Client {
         })
 
         this.on('interactionCreate', interaction => {
-            if(!interaction.isCommand()) return
+            if(!interaction.isCommand() || !interaction.isContextMenu()) return
             const cmd: Command | undefined = this.commands.get(interaction.commandName)
             if(!cmd) return
             cmd.exec(interaction)
