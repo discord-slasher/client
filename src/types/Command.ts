@@ -1,6 +1,6 @@
-import { ApplicationCommandData, ApplicationCommandPermissionData, CommandInteraction } from "discord.js";
+import { ChatInputApplicationCommandData, ApplicationCommandPermissionData, CommandInteraction } from "discord.js";
 
-export interface Command extends ApplicationCommandData {
+export interface Command extends ChatInputApplicationCommandData {
     ownerOnly?: boolean;
     permissions?: ApplicationCommandPermissionData[];
     exec(interaction: CommandInteraction): Promise<void>;
